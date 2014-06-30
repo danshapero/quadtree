@@ -198,11 +198,13 @@ class QuadTree {                                                          //
         R = boundingBox;
         root = new QuadTreeCell<2>(boundingBox);
 
-        num_points = P.size();
         X = &P;
 
-        for (int index = 0; index < num_points; index++) {
-            root->insertPoint(index, P[index]);
+        num_points = 0;
+        bool success = false;
+        for (int index = 0; index < P.size(); index++) {
+            success = root->insertPoint(index, P[index]);
+            if (success) num_points++;
         }
     }
 

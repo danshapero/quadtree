@@ -4,6 +4,8 @@
 CC = clang
 CXX = clang++
 
+CXXFLAGS = -std=c++11
+
 %.o: %.cxx
 	$(CXX) -c $< $(CXXFLAGS)
 
