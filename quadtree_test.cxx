@@ -60,10 +60,12 @@ int main() {
 
     QuadTree<2> QT(R, X);
 
-    p = QT.getPoint(0);
+    vector<int> I;
 
-    cout << "(" << p[0] << ", " << p[1] << ")" << endl;
-    cout << "(" << X[0][0] << ", " << X[0][1] << ")" << endl;
+    QT.rangeSearch(I, R);
+
+    cout << I.size() << endl;
+    
 
 
     cout << "Done with tests! Your quadtree works!" << endl;

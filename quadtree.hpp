@@ -79,6 +79,38 @@ class QuadTreeCell {                                                      //
         return R;
     }
 
+    void rangeSearch(std::vector<int>& I,
+                        std::vector< Point<DIM> >& P, Rectangle<DIM>& T) {
+        int i, k;
+
+        // Check all the children
+        Rectangle<DIM> S;
+        for (k = 0; k < (1<<DIM); k++) {
+            if (child[k]) {
+                /* Find the intersection of the search rectangle with the
+                   child cell's bounding box */
+                S = child[k]->getBoundingBox();
+                S = S & T;
+
+                /* If the intersection isn't empty, recurse the range
+                   search to the child cell */
+                if ( ! S.empty() ) {
+                    child[k]->rangeSearch(I, P, S);
+                }
+            }
+        }
+
+        Point<DIM> x;
+        // Check each of the points stored locally
+        for (k = 0; k < point_count; k++) {
+            i = indices[k];
+            x = P[i];
+            if ( T.inRectangle(x) ) {
+                I.push_back(i);
+            }
+        }
+    }
+
 
      ///////////
     // Mutators
@@ -119,7 +151,7 @@ class QuadTreeCell {                                                      //
 
             for (int i = 0; i < DIM; i++) {
                 // t == -1 if the i-th bit of index is 1, 0 otherwise
-                t = 1 - 2*((index & (1<<i)) != 0);
+                t = 1 - 2*((k & (1<<i)) != 0);
 
                 /* Choose q[i] = this.center[i] +/- this.width/2 according
                    to which quadrant it belongs to. */
@@ -193,6 +225,10 @@ class QuadTree {                                                          //
 
     Point<DIM> getPoint(int k) {
         return (*X)[k];
+    }
+
+    void rangeSearch(std::vector<int>& I, Rectangle<DIM>& T) {
+        root->rangeSearch(I, *X, T);
     }
 
 
