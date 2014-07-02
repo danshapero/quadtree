@@ -24,18 +24,18 @@ template<unsigned int DIM> class Point {                                  //
     }
 
     // Overload the array access operator
-    double& operator[] (int i) {
+    inline double& operator[] (int i) {
         return coords[i];
     }
 
-    const double& operator[] (int i) const {
+    inline const double& operator[] (int i) const {
         return coords[i];
     }
 
     /* Given an input point p, returns an int specifying which quadrant
        p is in relative to the this point. Bit #k of the returned int is 1 
        if p is below this point along dimension k. */
-    unsigned int quadrant( const Point<DIM>& p ) {
+    inline unsigned int quadrant( const Point<DIM>& p ) {
         unsigned int quad = 0;
         for (int i = 0; i < DIM; i++) {
             quad = quad + ((p[i] <= coords[i]) ? (1<<i) : 0);
@@ -48,7 +48,7 @@ template<unsigned int DIM> class Point {                                  //
 
 // Overloaded comparison operators for point data type
 template<unsigned int DIM>
-bool operator== (const Point<DIM>& p, const Point<DIM>& q) {
+inline bool operator== (const Point<DIM>& p, const Point<DIM>& q) {
     bool ret = true;
     for (int i = 0; i < DIM; i++) {
         ret = ret and (p[i] == q[i]);
@@ -58,7 +58,7 @@ bool operator== (const Point<DIM>& p, const Point<DIM>& q) {
 
 
 template<unsigned int DIM>
-bool operator!= (const Point<DIM>& p, const Point<DIM>& q) {
+inline bool operator!= (const Point<DIM>& p, const Point<DIM>& q) {
     return !(p==q);
 }
 
@@ -127,7 +127,7 @@ template<unsigned int DIM> class Rectangle {                              //
        to be inside the rectangle if it's on the upper boundary but not
        inside the rectangle if it's on the lower boundary. This is to avoid
        annoying edge cases because computational geometry is hard. */
-    bool inRectangle( Point<DIM>& p ) {
+    inline bool inRectangle( Point<DIM>& p ) {
         int i;
         bool ret = true;
         for (i=0; i < DIM; i++) {
