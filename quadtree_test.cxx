@@ -90,7 +90,14 @@ int main() {
             return 1;
         }
     }
-    
+
+
+    for (int i = 0; i < 100; i++) {
+        X[i][0] = 20.0 * double(rand()) / RAND_MAX - 10.0;
+        X[i][1] = 20.0 * double(rand()) / RAND_MAX - 10.0;
+    }
+
+    QT.rebuild(X);
 
 
     cout << "Done with tests! Your quadtree works!" << endl;

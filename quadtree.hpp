@@ -196,7 +196,7 @@ class QuadTree {                                                          //
 
     QuadTree(Rectangle<DIM>& boundingBox, std::vector< Point<DIM> >& P) {
         R = boundingBox;
-        root = new QuadTreeCell<2>(boundingBox);
+        root = new QuadTreeCell<DIM>(boundingBox);
 
         X = &P;
 
@@ -237,10 +237,17 @@ class QuadTree {                                                          //
      ///////////
     // Mutators
 
-    /*bool insertPoint( Point<DIM>& p ) {
-        QuadTreeCell<2>* cell = root;
+    void rebuild(std::vector< Point<DIM> >& P) {
+        delete root;
+        root = new QuadTreeCell<DIM>(R);
 
-        return false;
-    }*/
+        num_points = 0;
+        bool success = false;
+        for (int index = 0; index < P.size(); index++) {
+            success = root->insertPoint(index, P[index]);
+            if (success) num_points++;
+        }
+
+    }
 
 };
